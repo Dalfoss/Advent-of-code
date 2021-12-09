@@ -31,3 +31,35 @@ movingSum window lst = reverse $ drop (window - 1) $ go window lst [] where
 
 puzzle1_1 :: [Int] -> Int
 puzzle1_1 lst = (puzzle1_0 . movingSum 3) lst
+--------------------------------------------------------------------------------
+
+---- Day 2 ---------------------------------------------------------------------
+data Direction = Up
+  | Down
+  | Forward
+  deriving Show
+
+data Position = Position {
+    x :: Int
+  , y :: Int
+} deriving Show
+
+parseCommand :: String -> (Direction, Int)
+parseCommand command =
+  case words command of
+    ["up", mag]->  (Up, read mag)
+    ["down", mag] ->  (Down, read mag)
+    ["forward", mag] -> (Forward, read mag)
+
+move :: String -> Position -> Position
+move command pos =
+  case parseCommand command of
+    (Up, mag) -> pos{y=(y pos) - mag}
+    (Down, mag) -> pos{y=(y pos) + mag}
+    (Forward, mag) -> pos{x=(x pos) + mag}
+
+puzzle2_0 :: [String] -> Int
+puzzle2_0 commands = (x endPos) * (y endPos) where
+  endPos = foldr move Position{x=0, y=0} commands
+
+--------------------------------------------------------------------------------
