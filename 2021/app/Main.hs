@@ -2,12 +2,16 @@ module Main where
 
 main :: IO ()
 main = do
- d1_0 <- readFile "./inputs/input-1_0"
- let puzzle1Input = map read $ lines d1_0
- putStrLn $ show $ puzzle1_0 puzzle1Input
- putStrLn $ show $ puzzle1_1 puzzle1Input
+  d1_0 <- readFile "./inputs/input-1_0"
+  d2_0 <- readFile "./inputs/input-2_0"
+  let puzzle1Input = map read $ lines d1_0
+  let puzzle2Input = lines d2_0
+  putStrLn $ show $ puzzle1_0 puzzle1Input
+  putStrLn $ show $ puzzle1_1 puzzle1Input
+  putStrLn $ show $ puzzle2_0 puzzle2Input
 
 
+---- Day 1 ---------------------------------------------------------------------
 puzzle1_0 :: [Int] -> Int
 puzzle1_0 xs = go (head xs) (tail xs) 0 where
   go element list counter = case list of
