@@ -52,23 +52,23 @@ parseCommand command =
     ["down", mag] ->  (Down, read mag)
     ["forward", mag] -> (Forward, read mag)
 
-move0 :: String -> Position -> Position
-move0 command pos =
+move0 :: Position -> String -> Position
+move0 pos command =
   case parseCommand command of
     (Up, mag) -> pos{y=(y pos) - mag}
     (Down, mag) -> pos{y=(y pos) + mag}
     (Forward, mag) -> pos{x=(x pos) + mag}
 
-move1 :: String -> Position -> Position
-move1 command pos =
+move1 :: Position -> String -> Position
+move1 pos command =
   case parseCommand command of
     (Up, mag) -> pos{aim=(aim pos) - mag}
     (Down, mag) -> pos{aim=(aim pos) + mag}
-    (Forward, mag) -> pos{x=(x pos) + mag, y=(y pos) + (aim pos * mag)}
+    (Forward, mag) -> pos{x=(x pos + mag), y=(y pos) + (aim pos * mag)}
 
-puzzle2 :: (String -> Position -> Position) -> [String] -> Int
-puzzle2 foldFunc commands = (x endPos) * (y endPos) where
-  endPos = foldr foldFunc Position{x=0, y=0, aim=0} commands
+puzzle2 :: (Position -> String -> Position) -> [String] -> Int
+puzzle2 foldFunc commands = x endPos * y endPos where
+  endPos = foldl foldFunc Position{x=0, y=0, aim=0} commands
 
 puzzle2_0 :: [String] -> Int
 puzzle2_0 = puzzle2 move0
