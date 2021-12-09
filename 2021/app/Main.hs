@@ -42,6 +42,7 @@ data Direction = Up
 data Position = Position {
     x :: Int
   , y :: Int
+  , aim :: Int
 } deriving Show
 
 parseCommand :: String -> (Direction, Int)
@@ -51,15 +52,28 @@ parseCommand command =
     ["down", mag] ->  (Down, read mag)
     ["forward", mag] -> (Forward, read mag)
 
-move :: String -> Position -> Position
-move command pos =
+move0 :: String -> Position -> Position
+move0 command pos =
   case parseCommand command of
     (Up, mag) -> pos{y=(y pos) - mag}
     (Down, mag) -> pos{y=(y pos) + mag}
     (Forward, mag) -> pos{x=(x pos) + mag}
 
-puzzle2_0 :: [String] -> Int
-puzzle2_0 commands = (x endPos) * (y endPos) where
-  endPos = foldr move Position{x=0, y=0} commands
+move1 :: String -> Position -> Position
+move1 command pos =
+  case parseCommand command of
+    (Up, mag) -> pos{aim=(aim pos) - mag}
+    (Down, mag) -> pos{aim=(aim pos) + mag}
+    (Forward, mag) -> pos{x=(x pos) + mag, y=(y pos) + (aim pos * mag)}
 
---------------------------------------------------------------------------------
+puzzle2 :: (String -> Position -> Position) -> [String] -> Int
+puzzle2 foldFunc commands = (x endPos) * (y endPos) where
+  endPos = foldr foldFunc Position{x=0, y=0, aim=0} commands
+
+puzzle2_0 :: [String] -> Int
+puzzle2_0 = puzzle2 move0
+
+puzzle2_1 :: [String] -> Int
+puzzle2_1 = puzzle2 move1
+
+-------------------------------------------------------------------------------
