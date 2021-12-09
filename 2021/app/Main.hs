@@ -6,10 +6,10 @@ main = do
   d2_0 <- readFile "./inputs/input-2_0"
   let puzzle1Input = map read $ lines d1_0
   let puzzle2Input = lines d2_0
-  putStrLn $ show $ puzzle1_0 puzzle1Input
-  putStrLn $ show $ puzzle1_1 puzzle1Input
-  putStrLn $ show $ puzzle2_0 puzzle2Input
-
+  putStrLn $ "Day 1, part 1: " <> (show $ puzzle1_0 puzzle1Input)
+  putStrLn $ "Day 1, part 2: " <> (show $ puzzle1_1 puzzle1Input)
+  putStrLn $ "Day 2, part 1: " <> (show $ puzzle2_0 puzzle2Input)
+  putStrLn $ "Day 2, part 2: " <> (show $ puzzle2_1 puzzle2Input)
 
 ---- Day 1 ---------------------------------------------------------------------
 puzzle1_0 :: [Int] -> Int
